@@ -5,12 +5,11 @@ import {
   Button,
   Collapsible,
   Icon,
-  InputSelect,
+  Input,
   InputText,
   SearchField,
   StatusAlert,
   Tab,
-  Tabs,
 } from '@edx/paragon';
 import queryString from 'query-string';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -265,15 +264,8 @@ export default class Gradebook extends React.Component {
     return (
       <Drawer
         mainContent={toggleFilterDrawer => (
-          <div className="px-3 gradebook-content">
-            <a
-              href={this.lmsInstructorDashboardUrl(this.props.courseId)}
-              className="mb-3"
-            >
-              <span aria-hidden="true">{'<< '}</span> Back to Dashboard
-            </a>
-            <h1>Gradebook</h1>
-            <h3> {this.props.courseId}</h3>
+          <div className="px-3 ">
+
             {this.props.areGradesFrozen
               && (
               <div className="alert alert-warning" role="alert">
@@ -286,104 +278,114 @@ export default class Gradebook extends React.Component {
                 You are not authorized to view the gradebook for this course.
               </div>
               )}
-            <Tabs defaultActiveKey="grades">
-              <Tab eventKey="grades" title="Grades">
-                <h4>Step 1: Filter the Grade Report</h4>
-                <div className="d-flex justify-content-between">
-                  {this.props.showSpinner && <div className="spinner-overlay"><Icon className="fa fa-spinner fa-spin fa-5x color-black" /></div>}
-                  <Button className="btn-primary align-self-start" onClick={toggleFilterDrawer}><FontAwesomeIcon icon={faFilter} /> Edit Filters</Button>
-                  <div>
-                    <SearchField
-                      onSubmit={value => this.props.searchForUser(
-                        this.props.courseId,
-                        value,
-                        this.props.selectedCohort,
-                        this.props.selectedTrack,
-                        this.props.selectedAssignmentType,
-                      )}
-                      inputLabel="Search for a learner"
-                      onChange={filterValue => this.setState({ filterValue })}
-                      onClear={() => this.props.getUserGrades(
-                        this.props.courseId,
-                        this.props.selectedCohort,
-                        this.props.selectedTrack,
-                        this.props.selectedAssignmentType,
-                      )}
-                      value={this.state.filterValue}
-                    />
-                    <small className="form-text text-muted search-help-text">Search by username, email, or student key</small>
-                  </div>
-                </div>
-                <ConnectedFilterBadges
-                  handleFilterBadgeClose={this.handleFilterBadgeClose}
-                />
-                <StatusAlert
-                  alertType="success"
-                  dialog="The grade has been successfully edited. You may see a slight delay before updates appear in the Gradebook."
-                  onClose={() => this.props.closeBanner()}
-                  open={this.props.showSuccess}
-                />
-                <StatusAlert
-                  alertType="danger"
-                  dialog={this.getCourseGradeFilterAlertDialog()}
-                  dismissible={false}
-                  open={
+            <ConnectedFilterBadges
+              handleFilterBadgeClose={this.handleFilterBadgeClose}
+            />
+            <StatusAlert
+              alertType="success"
+              dialog="The grade has been successfully edited. You may see a slight delay before updates appear in the Gradebook."
+              onClose={() => this.props.closeBanner()}
+              open={this.props.showSuccess}
+            />
+            <StatusAlert
+              alertType="danger"
+              dialog={this.getCourseGradeFilterAlertDialog()}
+              dismissible={false}
+              open={
                     !this.state.isMinCourseGradeFilterValid
                     || !this.state.isMaxCourseGradeFilterValid
                   }
+            />
+            <div className="d-flex justify-content-start">
+              <div className="p-2  flex-fill">
+                <h1>Gradebook</h1>
+              </div>
+              <div className=" p-2 ">
+                <Input
+                  type="select"
+                  name="ScoreView"
+                  defaultValue="percent"
+                  className="dicy-rounded"
+                  options={[{ label: 'Percent', value: 'percent' }, { label: 'Absolute', value: 'absolute' }]}
+                  onChange={(e) => this.props.toggleFormat(e.target.value)}
                 />
-                <h4>Step 2: View or Modify Individual Grades</h4>
-                {this.props.totalUsersCount
-                  ? (
-                    <div>
-                      Showing
-                      <span className="font-weight-bold"> {this.props.filteredUsersCount} </span>
-                      of
-                      <span className="font-weight-bold"> {this.props.totalUsersCount} </span>
-                      total learners
-                    </div>
-                  )
-                  : null}
-                <div className="d-flex justify-content-between align-items-center mb-2">
-                  <InputSelect
-                    label="Score View:"
-                    name="ScoreView"
-                    value="percent"
-                    options={[{ label: 'Percent', value: 'percent' }, { label: 'Absolute', value: 'absolute' }]}
-                    onChange={this.props.toggleFormat}
-                  />
-                  {this.props.showBulkManagement && (
-                    <BulkManagementControls
-                      courseId={this.props.courseId}
-                      gradeExportUrl={this.props.gradeExportUrl}
-                      interventionExportUrl={this.props.interventionExportUrl}
-                      showSpinner={this.props.showSpinner}
-                    />
-                  )}
-                </div>
-                <GradebookTable setGradebookState={this.safeSetState} />
-                {PageButtons(this.props)}
-                <p>* available for learners in the Master&apos;s track only</p>
-                <EditModal
-                  assignmentName={this.state.assignmentName}
-                  adjustedGradeValue={this.state.adjustedGradeValue}
-                  adjustedGradePossible={this.state.adjustedGradePossible}
+                {this.props.showBulkManagement && (
+                <BulkManagementControls
                   courseId={this.props.courseId}
-                  filterValue={this.state.filterValue}
-                  onChange={this.onChange}
-                  open={this.state.modalOpen}
-                  reasonForChange={this.state.reasonForChange}
-                  setAdjustedGradeValue={this.createStateFieldOnChange('adjustedGradeValue')}
-                  setGradebookState={this.safeSetState}
-                  setReasonForChange={this.createStateFieldOnChange('reasonForChange')}
-                  todaysDate={this.state.todaysDate}
-                  updateModuleId={this.state.updateModuleId}
-                  updateUserId={this.state.updateUserId}
-                  updateUserName={this.state.updateUserName}
+                  gradeExportUrl={this.props.gradeExportUrl}
+                  interventionExportUrl={this.props.interventionExportUrl}
+                  showSpinner={this.props.showSpinner}
                 />
+                )}
+              </div>
+              <div className=" p-2">
+                {this.props.showSpinner && <div className="spinner-overlay"><Icon className="fa fa-spinner fa-spin fa-5x color-black" /></div>}
+                <Button className="align-self-start dicy-rounded dicy-gradebook-filter" onClick={toggleFilterDrawer}>Filter Grades</Button>
+              </div>
+              <div className=" p-2 ">
+                <SearchField.Advanced
+                  onSubmit={value => this.props.searchForUser(
+                    this.props.courseId,
+                    value,
+                    this.props.selectedCohort,
+                    this.props.selectedTrack,
+                    this.props.selectedAssignmentType,
+                  )}
+                  className="dicy-rounded"
+                  onChange={filterValue => this.setState({ filterValue })}
+                  onClear={() => this.props.getUserGrades(
+                    this.props.courseId,
+                    this.props.selectedCohort,
+                    this.props.selectedTrack,
+                    this.props.selectedAssignmentType,
+                  )}
+                  value={this.state.filterValue}
+                >
+                  <SearchField.Label />
+                  <SearchField.Input className="dicy-searchfield-rounded" />
+                  <SearchField.SubmitButton className="dicy-searchbutton-rounded" />
+                </SearchField.Advanced>
+                <small className="form-text text-muted search-help-text">Search by username or student key</small>
+              </div>
+            </div>
+            <div className="row">
+              {this.props.totalUsersCount
+                ? (
+                  <div>
+                    Showing
+                    <span className="font-weight-bold"> {this.props.filteredUsersCount} </span>
+                    of
+                    <span className="font-weight-bold"> {this.props.totalUsersCount} </span>
+                    total learners
+                  </div>
+                )
+                : null}
 
-              </Tab>
-              {this.props.showBulkManagement
+            </div>
+            <div className="container-fluid">
+              <GradebookTable setGradebookState={this.safeSetState} />
+              {PageButtons(this.props)}
+              <p>* available for learners in the Master&apos;s track only</p>
+            </div>
+            <EditModal
+              assignmentName={this.state.assignmentName}
+              adjustedGradeValue={this.state.adjustedGradeValue}
+              adjustedGradePossible={this.state.adjustedGradePossible}
+              courseId={this.props.courseId}
+              filterValue={this.state.filterValue}
+              onChange={this.onChange}
+              open={this.state.modalOpen}
+              reasonForChange={this.state.reasonForChange}
+              setAdjustedGradeValue={this.createStateFieldOnChange('adjustedGradeValue')}
+              setGradebookState={this.safeSetState}
+              setReasonForChange={this.createStateFieldOnChange('reasonForChange')}
+              todaysDate={this.state.todaysDate}
+              updateModuleId={this.state.updateModuleId}
+              updateUserId={this.state.updateUserId}
+              updateUserName={this.state.updateUserName}
+            />
+
+            {this.props.showBulkManagement
                 && (
                 <Tab eventKey="bulk_management" title="Bulk Management">
                   <BulkManagement
@@ -392,7 +394,6 @@ export default class Gradebook extends React.Component {
                   />
                 </Tab>
                 )}
-            </Tabs>
           </div>
         )}
         initiallyOpen={false}
@@ -447,23 +448,25 @@ export default class Gradebook extends React.Component {
           </div>
         </Collapsible>
         <Collapsible title="Student Groups" defaultOpen className="filter-group mb-3">
-          <InputSelect
+          <Input
+            type="select"
             label="Tracks"
             name="Tracks"
             aria-label="Tracks"
             disabled={this.props.tracks.length === 0}
             value={this.mapSelectedTrackEntry(this.props.selectedTrack)}
             options={this.mapTracksEntries(this.props.tracks)}
-            onChange={this.updateTracks}
+            onChange={value => this.updateTracks(value)}
           />
-          <InputSelect
+          <Input
+            type="select"
             name="Cohorts"
             aria-label="Cohorts"
             label="Cohorts"
             disabled={this.props.cohorts.length === 0}
             value={this.mapSelectedCohortEntry(this.props.selectedCohort)}
             options={this.mapCohortsEntries(this.props.cohorts)}
-            onChange={this.updateCohorts}
+            onChange={value => this.updateCohorts(value)}
           />
         </Collapsible>
       </Drawer>

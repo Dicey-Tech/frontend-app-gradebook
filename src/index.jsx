@@ -21,10 +21,10 @@ import {
 } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import Header, { messages as headerMessages } from '@edx/frontend-component-header';
 import SiteFooter, { messages as footerMessages } from '@edx/frontend-component-footer';
 
 import GradebookPage from './containers/GradebookPage';
-import Header from './components/Header';
 import store from './data/store';
 import './App.scss';
 
@@ -62,9 +62,13 @@ const App = () => (
         <div>
           <Header />
           <main>
-            <Switch>
-              <Route exact path={getConfig().PUBLIC_PATH.concat(':courseId')} component={GradebookPage} />
-            </Switch>
+            <div className="dicy-content-box container-fluid">
+              <div className="mx-auto my-auto">
+                <Switch>
+                  <Route exact path={getConfig().PUBLIC_PATH.concat(':courseId')} component={GradebookPage} />
+                </Switch>
+              </div>
+            </div>
           </main>
           <SiteFooter
             siteName={process.env.SITE_NAME}
@@ -99,7 +103,9 @@ subscribe(APP_READY, () => {
 
 initialize({
   messages: [
+    headerMessages,
     footerMessages,
   ],
   requireAuthenticatedUser: true,
+  hydrateAuthenticatedUser: true,
 });
