@@ -8,6 +8,7 @@ import {
   Modal,
   StatusAlert,
   Table,
+  Input,
 } from '@edx/paragon';
 
 import {
@@ -90,7 +91,7 @@ export class EditModal extends React.Component {
                 columns={GRADE_OVERRIDE_HISTORY_COLUMNS}
                 data={[...this.props.gradeOverrides, {
                   date: this.props.todaysDate,
-                  reason: (<input
+                  reason: (<Input
                     type="text"
                     name="reasonForChange"
                     value={this.props.reasonForChange}
@@ -99,8 +100,8 @@ export class EditModal extends React.Component {
                   />),
                   adjustedGrade: (
                     <span>
-                      <input
-                        type="text"
+                      <Input
+                        type="number"
                         name="adjustedGradeValue"
                         value={this.props.adjustedGradeValue}
                         onChange={this.props.setAdjustedGradeValue}
@@ -122,6 +123,7 @@ export class EditModal extends React.Component {
           <Button
             variant="primary"
             onClick={this.handleAdjustedGradeClick}
+            disabled={!this.props.adjustedGradeValue}
           >
             Save Grade
           </Button>,

@@ -16,7 +16,7 @@ $input-focus-box-shadow: $input-box-shadow; // hack to get upgrade to paragon 4.
 
 $dicy-radius: 0.95rem;
 
-.dicy-rounded, .pgn__searchfield {
+.form-control, .dicy-rounded, .pgn__searchfield, .btn {
     border-radius: $dicy-radius !important;
 }
 
@@ -25,7 +25,7 @@ $dicy-radius: 0.95rem;
     border-bottom-left-radius: $dicy-radius;
 }
 
-.dicy-searchbutton-rounded {
+.dicy-searchbutton-rounded  {
     border-bottom-right-radius: $dicy-radius;
     border-top-right-radius: $dicy-radius;
 }
