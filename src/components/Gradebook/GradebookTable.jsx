@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { Table } from '@edx/paragon';
+import { Avatar, ProgressBar, Table } from '@edx/paragon';
 
 import { formatDateForDisplay } from '../../data/actions/utils';
 import { getHeadings } from '../../data/selectors/grades';
@@ -37,10 +37,11 @@ export class GradebookTable extends React.Component {
   }
 
   getLearnerInformation = entry => (
-    <div>
-      <div>{entry.username}</div>
+    <>
+      <Avatar size="sm" src={entry.image_url_small} className="d-inline-block " />
+      <div className="d-inline-block wrap-text-in-cell mx-2">{entry.username}</div>
       {entry.external_user_key && <div className="student-key">{entry.external_user_key}</div>}
-    </div>
+    </>
   )
 
   roundGrade = percent => parseFloat((percent || 0).toFixed(DECIMAL_PRECISION));
@@ -50,7 +51,7 @@ export class GradebookTable extends React.Component {
       const learnerInformation = this.getLearnerInformation(entry);
       const results = {
         Username: (
-          <div><span className="wrap-text-in-cell">{learnerInformation}</span></div>
+          <div className="d-inline-block">{learnerInformation}</div>
         ),
         /* Email: (
           <span className="wrap-text-in-cell">{entry.email}</span>
@@ -60,15 +61,16 @@ export class GradebookTable extends React.Component {
       const assignments = entry.section_breakdown
         .reduce((acc, subsection) => {
           if (areGradesFrozen) {
-            acc[subsection.label] = `${this.roundGrade(subsection.percent * 100)} %`;
+            acc[subsection.label] = (
+              <ProgressBar now={subsection.percent * 100} label={`${this.roundGrade(subsection.percent * 100)} %`} />
+            );
           } else {
             acc[subsection.label] = (
-              <button
-                className="btn btn-header link-style grade-button"
+              <ProgressBar
+                now={subsection.percent * 100}
+                label={`${this.roundGrade(subsection.percent * 100)} %`}
                 onClick={() => this.setNewModalState(entry, subsection)}
-              >
-                {this.roundGrade(subsection.percent * 100)}%
-              </button>
+              />
             );
           }
           return acc;

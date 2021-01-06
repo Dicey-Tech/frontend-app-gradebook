@@ -110,10 +110,8 @@
 
     .table tr {
       th:nth-child(1),
-      td:nth-child(1),
-      th:nth-child(2),
-      td:nth-child(2) {
-        width: 240px;
+      td:nth-child(1) {
+        width: 480px;
       }
       th, td {
         width: 120px;
@@ -141,6 +139,7 @@
       th {
           vertical-align: top;
           font-size: 14px;
+          text-align: center;
       }
     }
 
