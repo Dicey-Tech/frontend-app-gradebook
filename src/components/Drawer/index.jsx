@@ -54,6 +54,8 @@ export default class Drawer extends React.Component {
               open: this.state.open,
               'd-none': !this.state.open,
             },
+            'bg-white',
+            'border border-light rounded-right',
           )}
           // onTransitionEnd={this.handleSlideDone()}
         >
@@ -67,15 +69,15 @@ export default class Drawer extends React.Component {
               <FontAwesomeIcon icon={faTimes} />
             </Button>
           </div>
-          {this.props.children}
           <div
             className={classNames(
               'drawer-contents',
               'position-relative',
               this.state.open && 'opened',
+              'p-1',
             )}
           >
-            {this.props.mainContent()}
+            {this.props.children}
           </div>
         </aside>
       </div>
@@ -86,7 +88,6 @@ export default class Drawer extends React.Component {
 Drawer.propTypes = {
   initiallyOpen: PropTypes.bool.isRequired,
   children: PropTypes.node,
-  mainContent: PropTypes.func.isRequired,
   title: PropTypes.node.isRequired,
   onClose: PropTypes.func.isRequired,
   open: PropTypes.bool,

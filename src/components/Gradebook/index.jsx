@@ -269,85 +269,85 @@ export default class Gradebook extends React.Component {
     return (
       <>
         <Drawer
-          mainContent={() => (
-            <>
-              <Assignments
-                assignmentGradeMin={this.state.assignmentGradeMin}
-                assignmentGradeMax={this.state.assignmentGradeMax}
-                courseId={this.props.courseId}
-                setAssignmentGradeMin={this.createStateFieldSetter('assignmentGradeMin')}
-                setAssignmentGradeMax={this.createStateFieldSetter('assignmentGradeMax')}
-                updateQueryParams={this.updateQueryParams}
-              />
-              <Collapsible title="Overall Grade" defaultOpen className="filter-group mb-3">
-                <div className="grade-filter-inputs">
-                  <div className="percent-group">
-                    <InputText
-                      value={this.state.courseGradeMin}
-                      name="minimum-grade"
-                      label="Min Grade"
-                      onChange={value => this.handleCourseGradeFilterChange('min', value)}
-                      type="number"
-                      min={0}
-                      max={100}
-                    />
-                    <span className="input-percent-label">%</span>
-                  </div>
-                  <div className="percent-group">
-                    <InputText
-                      value={this.state.courseGradeMax}
-                      name="max-grade"
-                      label="Max Grade"
-                      onChange={value => this.handleCourseGradeFilterChange('max', value)}
-                      type="number"
-                      min={0}
-                      max={100}
-                    />
-                    <span className="input-percent-label">%</span>
-                  </div>
-                </div>
-                <div className="grade-filter-action">
-                  <Button
-                    variant="outline-secondary"
-                    onClick={this.handleCourseGradeFilterApplyButtonClick}
-                  >
-                    Apply
-                  </Button>
-                </div>
-              </Collapsible>
-              <Collapsible title="Student Groups" defaultOpen className="filter-group mb-3">
-                <Input
-                  type="select"
-                  label="Tracks"
-                  name="Tracks"
-                  aria-label="Tracks"
-                  disabled={this.props.tracks.length === 0}
-                  value={this.mapSelectedTrackEntry(this.props.selectedTrack)}
-                  options={this.mapTracksEntries(this.props.tracks)}
-                  onChange={value => this.updateTracks(value)}
-                />
-                <Input
-                  type="select"
-                  name="Cohorts"
-                  aria-label="Cohorts"
-                  label="Cohorts"
-                  disabled={this.props.cohorts.length === 0}
-                  value={this.mapSelectedCohortEntry(this.props.selectedCohort)}
-                  options={this.mapCohortsEntries(this.props.cohorts)}
-                  onChange={value => this.updateCohorts(value)}
-                />
-              </Collapsible>
-            </>
-          )}
           initiallyOpen={false}
           open={this.state.filterOpen}
           title={(
             <>
               <FontAwesomeIcon icon={faFilter} /> Filter By...
             </>
-        )}
+                  )}
           onClose={this.toggleFilterDrawer}
-        />
+        >
+          <>
+            <Assignments
+              assignmentGradeMin={this.state.assignmentGradeMin}
+              assignmentGradeMax={this.state.assignmentGradeMax}
+              courseId={this.props.courseId}
+              setAssignmentGradeMin={this.createStateFieldSetter('assignmentGradeMin')}
+              setAssignmentGradeMax={this.createStateFieldSetter('assignmentGradeMax')}
+              updateQueryParams={this.updateQueryParams}
+            />
+            <Collapsible title="Overall Grade" defaultOpen className="filter-group mb-3">
+              <div className="grade-filter-inputs">
+                <div className="percent-group">
+                  <InputText
+                    value={this.state.courseGradeMin}
+                    name="minimum-grade"
+                    label="Min Grade"
+                    onChange={value => this.handleCourseGradeFilterChange('min', value)}
+                    type="number"
+                    min={0}
+                    max={100}
+                  />
+                  <span className="input-percent-label">%</span>
+                </div>
+                <div className="percent-group">
+                  <InputText
+                    value={this.state.courseGradeMax}
+                    name="max-grade"
+                    label="Max Grade"
+                    onChange={value => this.handleCourseGradeFilterChange('max', value)}
+                    type="number"
+                    min={0}
+                    max={100}
+                  />
+                  <span className="input-percent-label">%</span>
+                </div>
+              </div>
+              <div className="grade-filter-action">
+                <Button
+                  variant="outline-secondary"
+                  onClick={this.handleCourseGradeFilterApplyButtonClick}
+                >
+                  Apply
+                </Button>
+              </div>
+            </Collapsible>
+            <Collapsible title="Student Groups" defaultOpen className="filter-group mb-3">
+              <Input
+                type="select"
+                label="Tracks"
+                name="Tracks"
+                aria-label="Tracks"
+                disabled={this.props.tracks.length === 0}
+                value={this.mapSelectedTrackEntry(this.props.selectedTrack)}
+                options={this.mapTracksEntries(this.props.tracks)}
+                onChange={value => this.updateTracks(value)}
+              />
+              <Input
+                type="select"
+                name="Cohorts"
+                aria-label="Cohorts"
+                label="Cohorts"
+                disabled={this.props.cohorts.length === 0}
+                value={this.mapSelectedCohortEntry(this.props.selectedCohort)}
+                options={this.mapCohortsEntries(this.props.cohorts)}
+                onChange={value => this.updateCohorts(value)}
+              />
+            </Collapsible>
+          </>
+        </Drawer>
+        <div className="row m-3" />
         <div className="dicy-content-box container-fluid">
           <div className="mx-auto my-auto">
 
@@ -484,6 +484,7 @@ export default class Gradebook extends React.Component {
             </div>
           </div>
         </div>
+        <div className="row m-3" />
       </>
     );
   }
