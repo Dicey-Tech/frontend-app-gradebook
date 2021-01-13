@@ -128,10 +128,15 @@ const closeBanner = () => ({ type: CLOSE_BANNER });
 
 /* eslint-disable */
 async function getStudentAvatarUrls(data) {
-  for (const student of data.results) {  
-    const studentInfo = await LmsApiService.fetchStudentInfo(student.username);
-      student.image_url_small = studentInfo.data.profile_image.image_url_small;
-  }
+    for (const student of data.results) {  
+      try {
+        const studentInfo = await LmsApiService.fetchStudentInfo(student.username);
+        student.image_url_small = studentInfo.data.profile_image.image_url_small;
+      }
+      catch(error) {
+
+      }
+    }
   return data;
 }
 /* eslint-enable */
@@ -172,24 +177,23 @@ const fetchGrades = (
 
     )
       .then(response => response.data)
+      .then((data) => getStudentAvatarUrls(data))
       .then((data) => {
-        getStudentAvatarUrls(data).then(() => {
-          dispatch(gotGrades({
-            grades: data.results.sort(sortAlphaAsc),
-            cohort,
-            track,
-            assignmentType,
-            prev: data.previous,
-            next: data.next,
-            courseId,
-            totalUsersCount: data.total_users_count,
-            filteredUsersCount: data.filtered_users_count,
-          }));
-          dispatch(finishedFetchingGrades());
-          if (options.showSuccess) {
-            dispatch(openBanner());
-          }
-        });
+        dispatch(gotGrades({
+          grades: data.results.sort(sortAlphaAsc),
+          cohort,
+          track,
+          assignmentType,
+          prev: data.previous,
+          next: data.next,
+          courseId,
+          totalUsersCount: data.total_users_count,
+          filteredUsersCount: data.filtered_users_count,
+        }));
+        dispatch(finishedFetchingGrades());
+        if (options.showSuccess) {
+          dispatch(openBanner());
+        }
       })
       .catch(() => {
         dispatch(errorFetchingGrades());
@@ -253,21 +257,20 @@ const fetchPrevNextGrades = (endpoint, courseId, cohort, track, assignmentType) 
     dispatch(startedFetchingGrades());
     return getAuthenticatedHttpClient().get(endpoint)
       .then(response => response.data)
+      .then((data) => getStudentAvatarUrls(data))
       .then((data) => {
-        getStudentAvatarUrls(data).then(() => {
-          dispatch(gotGrades({
-            grades: data.results.sort(sortAlphaAsc),
-            cohort,
-            track,
-            assignmentType,
-            prev: data.previous,
-            next: data.next,
-            courseId,
-            totalUsersCount: data.total_users_count,
-            filteredUsersCount: data.filtered_users_count,
-          }));
-          dispatch(finishedFetchingGrades());
-        });
+        dispatch(gotGrades({
+          grades: data.results.sort(sortAlphaAsc),
+          cohort,
+          track,
+          assignmentType,
+          prev: data.previous,
+          next: data.next,
+          courseId,
+          totalUsersCount: data.total_users_count,
+          filteredUsersCount: data.filtered_users_count,
+        }));
+        dispatch(finishedFetchingGrades());
       })
       .catch(() => {
         dispatch(errorFetchingGrades());
