@@ -62,13 +62,9 @@ const App = () => (
         <div>
           <Header />
           <main>
-            <div className="dicy-content-box container-fluid">
-              <div className="mx-auto my-auto">
-                <Switch>
-                  <Route exact path={getConfig().PUBLIC_PATH.concat(':courseId')} component={GradebookPage} />
-                </Switch>
-              </div>
-            </div>
+            <Switch>
+              <Route exact path={getConfig().PUBLIC_PATH.concat(':courseId')} component={GradebookPage} />
+            </Switch>
           </main>
           <SiteFooter
             siteName={process.env.SITE_NAME}

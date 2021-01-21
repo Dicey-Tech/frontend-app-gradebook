@@ -40,33 +40,39 @@ export default class Drawer extends React.Component {
 
   render() {
     return (
-      <div className="d-flex drawer-container">
-        <aside
-          className={classNames(
-            'drawer',
-            {
-              open: this.state.open,
-              'd-none': !this.state.transitioning && !this.state.open,
-            },
-          )}
-          onTransitionEnd={this.handleSlideDone}
-        >
-          <div className="drawer-header">
-            <h2>{this.props.title}</h2>
-            <Button
-              className="p-1"
-              onClick={this.close}
-              aria-label="Close Filters"
-            >
-              <FontAwesomeIcon icon={faTimes} />
-            </Button>
+      <div className="d-flex flex-row justify-content-between bg-white">
+        <div className="drawer-container">
+          <div
+            className={classNames(
+              'drawer',
+              {
+                open: this.state.open,
+                'd-none': !this.state.transitioning && !this.state.open,
+
+              },
+              'bg-white',
+              'border',
+              'border-light',
+              'rounded-right',
+            )}
+            onTransitionEnd={this.handleSlideDone}
+          >
+            <div className="drawer-header">
+              <h2>{this.props.title}</h2>
+              <Button
+                className="p-1"
+                onClick={this.close}
+                aria-label="Close Filters"
+              >
+                <FontAwesomeIcon icon={faTimes} />
+              </Button>
+            </div>
+            {this.props.children}
           </div>
-          {this.props.children}
-        </aside>
+        </div>
         <div
           className={classNames(
-            'drawer-contents',
-            'position-relative',
+            'container-fluid',
             !this.state.drawerTransitioning && this.state.drawerOpen && 'opened',
           )}
         >

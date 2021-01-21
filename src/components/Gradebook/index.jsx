@@ -264,7 +264,7 @@ export default class Gradebook extends React.Component {
     return (
       <Drawer
         mainContent={toggleFilterDrawer => (
-          <div className="px-3 ">
+          <div className="px-3 mx-auto">
 
             {this.props.areGradesFrozen
               && (
@@ -296,7 +296,7 @@ export default class Gradebook extends React.Component {
                     || !this.state.isMaxCourseGradeFilterValid
                   }
             />
-            <div className="d-flex justify-content-start">
+            <div className="d-flex justify-content-between">
               <div className="p-2  flex-fill">
                 <h1>Gradebook</h1>
               </div>
