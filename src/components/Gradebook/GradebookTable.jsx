@@ -75,7 +75,15 @@ export class GradebookTable extends React.Component {
           }
           return acc;
         }, {});
-      const totals = { Total: `${this.roundGrade(entry.percent * 100)}%` };
+      const totals = {
+        Total: (
+          <ProgressBar
+            now={this.roundGrade(entry.percent * 100)}
+            label={`${this.roundGrade(entry.percent * 100)}%`}
+          />
+        ),
+      };
+
       return Object.assign(results, assignments, totals);
     }),
 

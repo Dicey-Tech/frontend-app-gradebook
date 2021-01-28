@@ -1,3 +1,5 @@
+$grade-progress-radius: 0.5rem;
+
 .spinner-overlay {
     position: fixed;
     height: 100%;
@@ -91,6 +93,17 @@
           }
         }
     }
+
+    .progress {
+      border-radius: $grade-progress-radius;
+      background-color: #dbdbdb;
+      
+      .progress-bar {
+        background-color: #d0127f;
+      }
+    }
+
+    
 
     thead, tbody, tr, td, th {
       display: block;
