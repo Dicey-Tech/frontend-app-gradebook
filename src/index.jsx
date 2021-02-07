@@ -21,10 +21,10 @@ import {
 } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import Header, { messages as headerMessages } from '@edx/frontend-component-header';
 import SiteFooter, { messages as footerMessages } from '@edx/frontend-component-footer';
 
 import GradebookPage from './containers/GradebookPage';
-import Header from './components/Header';
 import store from './data/store';
 import './App.scss';
 
@@ -99,7 +99,9 @@ subscribe(APP_READY, () => {
 
 initialize({
   messages: [
+    headerMessages,
     footerMessages,
   ],
   requireAuthenticatedUser: true,
+  hydrateAuthenticatedUser: true,
 });

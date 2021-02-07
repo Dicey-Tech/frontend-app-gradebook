@@ -126,6 +126,21 @@ const filterAssignmentType = filterType => (
 const openBanner = () => ({ type: OPEN_BANNER });
 const closeBanner = () => ({ type: CLOSE_BANNER });
 
+/* eslint-disable */
+async function getStudentAvatarUrls(data) {
+    for (const student of data.results) {  
+      try {
+        const studentInfo = await LmsApiService.fetchStudentInfo(student.username);
+        student.image_url_small = studentInfo.data.profile_image.image_url_small;
+      }
+      catch(error) {
+
+      }
+    }
+  return data;
+}
+/* eslint-enable */
+
 const fetchGrades = (
   courseId,
   cohort,
@@ -162,6 +177,7 @@ const fetchGrades = (
 
     )
       .then(response => response.data)
+      .then((data) => getStudentAvatarUrls(data))
       .then((data) => {
         dispatch(gotGrades({
           grades: data.results.sort(sortAlphaAsc),
@@ -241,6 +257,7 @@ const fetchPrevNextGrades = (endpoint, courseId, cohort, track, assignmentType) 
     dispatch(startedFetchingGrades());
     return getAuthenticatedHttpClient().get(endpoint)
       .then(response => response.data)
+      .then((data) => getStudentAvatarUrls(data))
       .then((data) => {
         dispatch(gotGrades({
           grades: data.results.sort(sortAlphaAsc),

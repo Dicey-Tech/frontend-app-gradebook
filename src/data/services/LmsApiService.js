@@ -135,6 +135,11 @@ class LmsApiService {
     const historyUrl = `${LmsApiService.baseUrl}/api/grades/v1/subsection/${subsectionId}/?user_id=${userId}&history_record_limit=5`;
     return getAuthenticatedHttpClient().get(historyUrl);
   }
+
+  static fetchStudentInfo(studentId) {
+    const studentUrl = `${LmsApiService.baseUrl}/api/user/v1/accounts/${studentId}`;
+    return getAuthenticatedHttpClient().get(studentUrl);
+  }
 }
 
 export default LmsApiService;

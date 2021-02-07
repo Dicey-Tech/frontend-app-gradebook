@@ -13,3 +13,32 @@ $input-focus-box-shadow: $input-box-shadow; // hack to get upgrade to paragon 4.
 
 @import "./components/Gradebook/gradebook";
 @import "./components/Drawer/Drawer";
+
+$dicy-radius: 0.95rem;
+
+.form-control, .dicy-rounded, .pgn__searchfield, .btn {
+    border-radius: $dicy-radius !important;
+}
+
+.dicy-searchfield-rounded {
+    border-top-left-radius: $dicy-radius;
+    border-bottom-left-radius: $dicy-radius;
+}
+
+.dicy-searchbutton-rounded  {
+    border-bottom-right-radius: $dicy-radius;
+    border-top-right-radius: $dicy-radius;
+}
+
+.dicy-content-box {
+    @extend .dicy-rounded;
+    border: solid 1px $gray-100;
+    background-color: white;
+}
+
+.dicy-gradebook-filter {
+    background-color: $yellow;
+}
+body {
+    background-color: $gray-200;
+}
