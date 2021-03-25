@@ -37,7 +37,7 @@
     "@fortawesome/react-fontawesome": "0.1.14",
     "@redux-beacon/segment": "1.1.0",
     "classnames": "2.2.6",
-    "core-js": "3.6.5",
+    "core-js": "3.9.1",
     "email-prop-type": "1.1.7",
     "font-awesome": "4.7.0",
     "history": "4.10.1",
