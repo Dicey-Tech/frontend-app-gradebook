@@ -47,7 +47,7 @@
     "react": "16.14.0",
     "react-dom": "16.14.0",
     "react-intl": "5.15.2",
-    "react-redux": "5.1.2",
+    "react-redux": "7.2.3",
     "react-router": "5.2.0",
     "react-router-dom": "5.2.0",
     "react-router-redux": "5.0.0-alpha.9",
